@@ -1,17 +1,28 @@
 import express from "express";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
+import cors from "cors"
+
 import { connectDB } from "./config/db.js";
 import User from "./models/user.model.js";
 
 
 
 const app = express();
+
 const PORT = process.env.PORT || 3000;
 
 
 dotenv.config();
+app.use(cors())
 app.use(express.json()); 
+
+
+
+app.get("/", async (req, res) => {
+    return res.send("hello this is express server");
+});
+
 
 
 app.get("/get-dummy-data", async (req, res) => {
