@@ -65,14 +65,14 @@ app.post("/register", async (req, res) => {
     const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
-        return res.status(400).json({ success: false, message: "Please provide all fields" });
+        return res.status(400).json({ success: false, message: "Please provide all fields", data: null});
     }
 
     try {
         const existingUser = await User.findOne({ email });
 
         if (existingUser) {
-            return res.status(400).json({ success: false, message: "User already exists" });
+            return res.status(400).json({ success: false, message: "User already exists" , data: null});
         }
 
         // **Hash password before saving**
@@ -81,10 +81,10 @@ app.post("/register", async (req, res) => {
         const newUser = new User({ name, email, password: hashedPassword });
         await newUser.save();
 
-        return res.status(201).json({ success: true, data: newUser });
+        return res.status(201).json({ success: true, message: "Registeration successful", data: newUser});
     } catch (error) {
         console.error("Error in registering user: ", error.message);
-        return res.status(500).json({ success: false, message: "Error in registering user" });
+        return res.status(500).json({ success: false, message: "Error in registering user", data: null });
     }
 });
 
